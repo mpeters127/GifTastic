@@ -1,0 +1,22 @@
+Theme is going to be cartoons
+
+We're going to do all of the heading stuff linking to our js css jquery
+and bootstrap (maybe). Not getting to visually fancy.
+
+Skeleton html.
+
+Gotta get some buttons rolling with some cartoon action.
+
+Get a search bar going.
+
+All the cartoons are going to be in an array. When you search the new cartoon
+the array will be appended with the new cartoon with the submit button.
+
+From here we will need our ajax call to giphy api. Will also call with added buttons.
+  Do we do this with a loop or are we doing something else? tbd
+
+When the api is called we should have the 10 gifs pop us as still images.
+
+When clicked those images will move. Click again to stop.
+
+Get the ratings to show.

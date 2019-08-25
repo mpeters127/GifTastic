@@ -1,12 +1,12 @@
-let cartoons = ["Rugrats","CatDog","Courage the Cowardly Dog"]
+let states = []
 
 $(document).ready(function() {
 
 // this function makes our JSON call to get our gifs
 function showGifs(){
-  let cartoon = $(this).attr('cartoonName');
+  let state = $(this).attr('stateName');
 
-let queryUrl = "https://api.giphy.com/v1/gifs/search?q=" + cartoon + 
+let queryUrl = "https://api.giphy.com/v1/gifs/search?q=" + state + 
   "&api_key=Lt4Swoe1WVvDDtxMEjI3L6XmGXfJJ6Ny";
 
 $.ajax({
@@ -14,7 +14,6 @@ $.ajax({
   method: "GET"
 })
   .then(function(response) {
-    $('#gifBox').img(JSON.parse(response))
     console.log(queryUrl);
     console.log(response);
     });
@@ -23,30 +22,30 @@ $.ajax({
 function makeButtons() {
 
   $('#gifBox').empty();
-  // loop for our cartoons array
-  for (let i = 0; i < cartoons.length; i++) {
+  // loop for our States array
+  for (let i = 0; i < states.length; i++) {
     //this makes our button
     let button = $('<button>');
-      button.addClass('cartoon');
-      button.attr('cartoonName', cartoons[i]);
+      button.addClass('state');
+      button.attr('stateName', states[i]);
 
-    $('#cartoonButtons').append(cartoons);
+    $('#stateButtons').append(states);
   }
 }
 
 //make event that handles when the buttons are clucked
-  $('#addCartoon').on("click", function(event) {
+  $('#addStates').on("click", function(event) {
     event.preventDefault();
 
-    let cartoon = $('#cartoonInput').val().trim();
-    cartoons.push(cartoon);
-    console.log(cartoons);
+    let state = $('#stateInput').val().trim();
+    states.push(state);
+    console.log(states);
 
     makeButtons();
   
 });
 
-$(document).on('click','.cartoon', showGifs);
+$(document).on('click','.state', showGifs);
 
 makeButtons();
 

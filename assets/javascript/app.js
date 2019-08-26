@@ -1,5 +1,7 @@
 let states = ["california","oregon","washington"]
 
+// this function makes our buttons
+
   function makeButtons() {
 
     $("stateButtons").empty();
@@ -16,7 +18,7 @@ let states = ["california","oregon","washington"]
 
   makeButtons();
 
-  let state = $(this).attr("data-state");
+let state = $(this).attr("data-state");
 // this function makes our JSON call to get our gifs
 
 let queryURL = "https://api.giphy.com/v1/gifs/search?q=" + state + 

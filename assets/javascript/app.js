@@ -1,54 +1,61 @@
-let states = []
+let states = ["california","oregon","washington"]
 
-$(document).ready(function() {
+  function makeButtons() {
 
+    $("stateButtons").empty();
+
+    for (let i = 0; i < states.length; i++){
+      
+      let stateButton = $('<button>');
+        stateButton.addClass("state");
+        stateButton.text(states[i])
+
+      $("#stateButtons").append(stateButton);
+    }
+  }
+
+  let state = $(this).attr("data-state");
 // this function makes our JSON call to get our gifs
-function showGifs(){
-  let state = $(this).attr('stateName');
 
 let queryUrl = "https://api.giphy.com/v1/gifs/search?q=" + state + 
   "&api_key=Lt4Swoe1WVvDDtxMEjI3L6XmGXfJJ6Ny";
 
-$.ajax({
-  get: queryUrl,
-  method: "GET"
-})
-  .then(function(response) {
-    console.log(queryUrl);
-    console.log(response);
-    });
-  }
-// this function is going to give us our buttons that go to our button array 
-function makeButtons() {
+  $.ajax({
+    url: queryURL,
+    method: "GET"
+  })
+    // After data comes back from the request
+    .then(function(response) {
+      console.log(queryURL);
 
-  $('#gifBox').empty();
-  // loop for our States array
-  for (let i = 0; i < states.length; i++) {
-    //this makes our button
-    let button = $('<button>');
-      button.addClass('state');
-      button.attr('stateName', states[i]);
+      console.log(response);
+      // storing the data from the AJAX request in the results variable
+      let results = response.data;
 
-    $('#stateButtons').append(states);
-  }
-}
+      // Looping through each result item
+      for (let i = 0; i < results.length; i++) {
 
-//make event that handles when the buttons are clucked
-  $('#addStates').on("click", function(event) {
-    event.preventDefault();
+        // Creating and storing a div tag
+        let stateDiv = $("<div>");
 
-    let state = $('#stateInput').val().trim();
-    states.push(state);
-    console.log(states);
+        // Creating a paragraph tag with the result item's rating
+        let p = $("<p>").text("Rating: " + results[i].rating);
 
-    makeButtons();
-  
-});
+        // Creating and storing an image tag
+        let stateImage = $("<img>");
+        // Setting the src attribute of the image to a property pulled off the result item
+        stateImage.attr("src", results[i].images.fixed_height.url);
 
-$(document).on('click','.state', showGifs);
+        // Appending the paragraph and image tag to the stateDiv
+        stateDiv.append(p);
+        stateDiv.append(stateImage);
 
-makeButtons();
+        // Prependng the stateDiv to the HTML page in the "#gifs-appear-here" div
+        $("#gifs-appear-here").prepend(animalDiv);
+      }
+    }
+    );
 
-})
+
 
   

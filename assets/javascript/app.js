@@ -14,10 +14,12 @@ let states = ["california","oregon","washington"]
     }
   }
 
+  makeButtons();
+
   let state = $(this).attr("data-state");
 // this function makes our JSON call to get our gifs
 
-let queryUrl = "https://api.giphy.com/v1/gifs/search?q=" + state + 
+let queryURL = "https://api.giphy.com/v1/gifs/search?q=" + state + 
   "&api_key=Lt4Swoe1WVvDDtxMEjI3L6XmGXfJJ6Ny";
 
   $.ajax({

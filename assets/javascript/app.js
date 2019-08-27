@@ -2,21 +2,7 @@ let states = ["california","oregon","washington"]
 
 // this function makes our buttons
 
-  function makeButtons() {
 
-    $("stateButtons").empty();
-
-    for (let i = 0; i < states.length; i++){
-      
-      let stateButton = $('<button>');
-        stateButton.addClass("state");
-        stateButton.text(states[i])
-
-      $("#stateButtons").append(stateButton);
-    }
-  }
-
-  makeButtons();
 
 let state = $(this).attr("data-state");
 // this function makes our JSON call to get our gifs
@@ -55,11 +41,34 @@ let queryURL = "https://api.giphy.com/v1/gifs/search?q=" + state +
         stateDiv.append(stateImage);
 
         // Prependng the stateDiv to the HTML page in the "#gifs-appear-here" div
-        $("#gifs-appear-here").prepend(animalDiv);
+        $("#stateGifs").append(stateButtons);
       }
     }
+    
     );
 
+    function makeButtons() {
 
-
+      $("stateButtons").empty();
   
+      for (let i = 0; i < states.length; i++){
+        
+        let stateButton = $('<button>');
+          stateButton.addClass("state");
+          stateButton.text(states[i])
+  
+        $("#stateButtons").append(stateButton);
+      }
+    }
+  
+    makeButtons();
+
+    $('#statesFrom').submit(function (event){
+      event.preventDefault();
+
+      //array for state selection
+      let stateSelection=[];
+      stateSelection.push($('#stateInput').val().trim());
+
+      makeButtons(stateSelection);
+    })

@@ -1,60 +1,68 @@
 let states = ["california", "oregon", "washington"]
-// MJP <3 CMG
+
 $(document).ready(function () {
-  makeButtons();
-
-
-  // this function makes our buttons
-  function makeButtons() {
-    //
-    $("#stateButtons").empty();
-
-    for (let i = 0; i < states.length; i++) {
-      makeOneButton(states[i]);
-    }
+  $("#stateButtons").empty();
+  // this populates our list
+  for (let i = 0; i < states.length; i++) {
+    makeOneButton(states[i]);
   }
-
-  function makeOneButton(text) {
-    let stateButton = $('<button></button>');
-    stateButton.addClass("state");
-    stateButton.text(text);
-
-    $("#stateButtons").append(stateButton);
-    getGifsForButton(text);
-  }
-
-  function getGifsForButton(text) {
-    let endPoint = "https://api.giphy.com/v1/gifs/search";
-    let api_key = "Lt4Swoe1WVvDDtxMEjI3L6XmGXfJJ6Ny";
-    let queryURL = endPoint + "?q=" + text + "&limit=10" + "&api_key=" + api_key;
-
-
-    $.ajax({
-      url: queryURL,
-      method: "GET"
-    }).then(function (response) {
-      
-      for (let i = 0; i < response.data.length; i++){
-
-        let gifDiv = $("<div>");
-        
-        let stateGif = $("<img>");
-        stateGif.attr("src", response.data[i].images.fixed_height.url);
-  
-        //gifDiv.append(p);
-        gifDiv.append(stateGif);
-        
-        $("#stateGifs").prepend(gifDiv);
-      }
-      console.log(response);
-    }).catch(function (error) {
-      console.error(error)
-    });
-  }
-
-  $('#newStateButton').click(function (event) {
-    event.preventDefault();
-
-    makeOneButton($('#stateInput').val().trim());
-  })
 })
+
+//this is binding a function to the click event of any state button
+$("#stateButtons").on("click", ".state", function () {
+  // this function calls the clicked state by id
+  getStateGifsByName(this.id);
+});
+
+// this function makes a button with the name of the state
+function makeOneButton(text) {
+  // this gives the button an id of the state name
+  let stateButton = $('<button id="' + text + '">');
+  // this gives the button class of state
+  stateButton.addClass("state");
+  // this gives the button text
+  stateButton.text(text);
+  // this appends stateButton to the stateButtons div
+  $("#stateButtons").append(stateButton);
+}
+
+
+function getStateGifsByName(text) {
+  let endPoint = "https://api.giphy.com/v1/gifs/search";
+  let api_key = "Lt4Swoe1WVvDDtxMEjI3L6XmGXfJJ6Ny";
+  let queryURL = endPoint + "?q=" + text + "&limit=10" + "&api_key=" + api_key;
+
+  // our API call
+  $.ajax({
+    url: queryURL,
+    method: "GET"
+  }).then(function (response) {
+    $("#stateGifs").empty();
+
+    // this populates the stateGifs div with 10 gifs from the clicked state
+    for (let i = 0; i < response.data.length; i++) {
+      // makes div for our gifs
+      let gifDiv = $("<div>");
+      // gives us our gif from the response data
+      let stateGif = $("<img>");
+      stateGif.attr("src", response.data[i].images.fixed_height.url);
+      // todo: add rating here
+      //gifDiv.append(p);
+      gifDiv.append(stateGif);
+      // appends the gifDiv to the stateGifs div
+      $("#stateGifs").append(gifDiv);
+    }
+    console.log(response);
+    //error handling
+  }).catch(function (error) {
+    console.error(error)
+  });
+}
+// binding function to click event for new state button
+$('#newStateButton').click(function (event) {
+  event.preventDefault();
+  // calling make button function
+  makeOneButton($('#stateInput').val().trim());
+});
+
+//bind click event to toggle static v mobile gif

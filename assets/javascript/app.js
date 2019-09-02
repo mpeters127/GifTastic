@@ -26,7 +26,6 @@ function makeOneButton(text) {
   $("#stateButtons").append(stateButton);
 }
 
-
 function getStateGifsByName(text) {
   let endPoint = "https://api.giphy.com/v1/gifs/search";
   let api_key = "Lt4Swoe1WVvDDtxMEjI3L6XmGXfJJ6Ny";
@@ -43,12 +42,20 @@ function getStateGifsByName(text) {
     for (let i = 0; i < response.data.length; i++) {
       // makes div for our gifs
       let gifDiv = $("<div>");
+      // gives us our still gif from the response data
+      let stateGifStill = $("<img>");
+      stateGifStill.attr("src", response.data[i].images.original_still.url);
       // gives us our gif from the response data
-      let stateGif = $("<img>");
-      stateGif.attr("src", response.data[i].images.fixed_height.url);
-      // todo: add rating here
-      //gifDiv.append(p);
-      gifDiv.append(stateGif);
+      let stateGifMoving = $("<img>");
+      stateGifMoving.attr("src", response.data[i].images.original.url);
+      // gives us our rating from the response data
+      let rating = $("<p>");
+      rating.text("Rating: " + response.data[i].rating);
+      // this adds the above information to the gifDiv
+      gifDiv.append(stateGifStill);
+      // this replaces the still gif with the moving gif
+        $(stateGifStill.replaceWith(stateGifMoving)).on("click");
+      gifDiv.append(rating);
       // appends the gifDiv to the stateGifs div
       $("#stateGifs").append(gifDiv);
     }

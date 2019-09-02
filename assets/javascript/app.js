@@ -45,16 +45,20 @@ function getStateGifsByName(text) {
       // gives us our still gif from the response data
       let stateGifStill = $("<img>");
       stateGifStill.attr("src", response.data[i].images.original_still.url);
-      // gives us our gif from the response data
+      stateGifStill.addClass("stillGif");
+      // gives us our moving gif from the response data
       let stateGifMoving = $("<img>");
       stateGifMoving.attr("src", response.data[i].images.original.url);
+      stateGifMoving.addClass("movingGif")
       // gives us our rating from the response data
       let rating = $("<p>");
       rating.text("Rating: " + response.data[i].rating);
       // this adds the above information to the gifDiv
       gifDiv.append(stateGifStill);
       // this replaces the still gif with the moving gif
-        $(stateGifStill.replaceWith(stateGifMoving)).on("click");
+      $(".stillGif").click(function(){
+        $(this).replaceWith(stateGifMoving);
+      })
       gifDiv.append(rating);
       // appends the gifDiv to the stateGifs div
       $("#stateGifs").append(gifDiv);

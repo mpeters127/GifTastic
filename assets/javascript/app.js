@@ -39,7 +39,7 @@ function getStateGifsByName(text) {
     $("#stateGifs").empty();
 
     // this populates the stateGifs div with 10 gifs from the clicked state
-    for (let i = 0; i < response.data.length; i++) {
+    for (let i = j = 0; i < response.data.length; i++, j++) {
       // makes div for our gifs
       let gifDiv = $("<div>");
       // gives us our still gif from the response data
@@ -47,14 +47,17 @@ function getStateGifsByName(text) {
       stateGifStill.attr("src", response.data[i].images.original_still.url);
       stateGifStill.addClass("stillGif");
       // gives us our moving gif from the response data
-      for (let j = i; j < response.data.length; j++) {
-        let stateGifMoving = $("<img>");
-        stateGifMoving.attr("src", response.data[j].images.original.url);
-        stateGifMoving.addClass("movingGif");
-        $(stateGifStill).click(function () {
-          $(this).replaceWith(stateGifMoving);
-        })
-      };
+      let stateGifMoving = $("<img>");
+      stateGifMoving.attr("src", response.data[j].images.original.url);
+      stateGifMoving.addClass("movingGif");
+      // makes gif move on click
+      $(stateGifStill).click(function () {
+        $(this).replaceWith(stateGifMoving);
+      });
+      // makes gif stop on click
+      $(stateGifMoving).click(function () {
+        $(this).replaceWith(stateGifStill);
+      });
       // gives us our rating from the response data
       let rating = $("<p>");
       rating.text("Rating: " + response.data[i].rating);
